@@ -1,0 +1,9 @@
+Package: com.xyaman.libsona
+Name: libSona
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome library of some sort!!
+Maintainer: Diego Barría
+Author: Diego Barría
+Section: System
+Tag: role::developer

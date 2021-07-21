@@ -7,12 +7,6 @@
 @end
 
 @implementation SonaBarsView
-// -(instancetype) initWithFrame:(CGRect)frame {
-// 	self = [super initWithFrame:frame];
-
-// 	return self;
-// }
-
 // we need a different setter method, because we also need to create layers
 -(void) renderBars {
 	// Calculate offset to center bars
@@ -36,34 +30,44 @@
 
 	// Start audio connection
 	self.isMusicPlaying = YES;
-	[self.audioManager startConnection];
+	[self.audioSource startConnection];
 }
 
 -(void) stop {
 	self.isMusicPlaying = NO;
-	[self.audioManager stopConnection];
+	[self.audioSource stopConnection];
 }
 
 
 -(void) resume {
 	if (!self.isMusicPlaying) return;
 
-	[self.audioManager startConnection];
+	[self.audioSource startConnection];
 }
 
 -(void) pause {
 	if (!self.isMusicPlaying) return;
 
-	[self.audioManager stopConnection];
+	[self.audioSource stopConnection];
 }
 
--(void) newAudioDataWasProcessed:(float *)data withLength:(int)length {
+-(void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
 	
+	// We want fft
+	if(length == 480) {
+		[self.audioProcessor fromRawToFFTAirpods:buffer withLength:length];
+
+	} else {
+		[self.audioProcessor fromRawToFFT:buffer withLength:length];
+	}
+}
+
+- (void) newAudioDataWasProcessed:(float *)frames withLength:(int)length {
+
 	// We want bar frequency visualizer
 
 	// I don't know too much about audio visualization, but I will use a kind of octave bands.
 	// with max capacity 10.
-
 	float octaves[10] = {0};
 	float offset = 10 / self.pointNumber;
 	float freq = 0;
@@ -75,7 +79,7 @@
 	for(int i = 0; i < length; i++) {
 		freq = i > 0 ? i * binWidth : MIN_HZ;
 
-		octaves[band] += data[i];
+		octaves[band] += frames[i];
 
 		if(freq > offset * bandEnd) {
 			band += 1;
@@ -93,7 +97,7 @@
 			bar.backgroundColor = self.pointColor.CGColor;
 			bar.frame = CGRectMake(bar.frame.origin.x, self.frame.size.height, bar.frame.size.width, -fabs(heightMultiplier * self.frame.size.height));
 		});
-	}
+	}	
 }
 
 @end

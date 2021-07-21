@@ -7,7 +7,7 @@
 - (instancetype) initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 
-	// Just defaults, but necessary values in case I forgot to add them later
+	// Just defaults, but necessary values in case the user doesn't add them
 	self.refreshRateInSeconds = 0.1f;
 	self.pointSensitivity = 1.0f;
 	self.pointAirpodsBoost = 1.0f;
@@ -19,8 +19,12 @@
 	self.pointColor = [UIColor whiteColor];
 	self.isMusicPlaying = NO;
 
-	self.audioManager = [[SonaAudioManager alloc] init];
-	self.audioManager.delegate = self;
+	self.audioSource = [[SonaAudioSource alloc] init];
+	self.audioSource.delegate = self;
+
+	self.audioProcessor = [[SonaAudioProcessor alloc] init];
+	self.audioProcessor.delegate = self;
+
 	return self;
 }
 
@@ -30,6 +34,15 @@
 - (void) stop {
 }
 
+- (void) setConstraints:(CGRect)frame {
+	if(!self.superview) return;
+
+	[self.leftAnchor constraintEqualToAnchor:self.superview.leftAnchor constant:frame.origin.x].active = YES; // Left
+	[self.topAnchor constraintEqualToAnchor:self.superview.topAnchor].active = YES; // Top
+	[self.widthAnchor constraintEqualToConstant:frame.size.width].active = YES; // Width
+	[self.heightAnchor constraintEqualToConstant:frame.size.height].active = YES; // Height
+}
+
 // - (void) resume {
 // }
 
@@ -37,5 +50,8 @@
 // }
 
 -(void) newAudioDataWasProcessed:(float *)data withLength:(int)length {
+}
+
+- (void) newAudioDataWasReceived:(float*)data withLength:(int)length {
 }
 @end

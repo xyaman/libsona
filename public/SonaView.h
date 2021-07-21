@@ -1,12 +1,13 @@
 #import <UIKit/UIKit.h>
 
-#import "SonaAudioManager.h"
+#import "SonaAudioSource.h"
+#import "SonaAudioProcessor.h"
 
 /// The SonaView class in Sona provides the most basic visualyzer view.
-@interface SonaView : UIView <SonaAudioManagerDelegate>
+@interface SonaView : UIView <SonaAudioSourceDelegate, SonaAudioProcessorDelegate>
 
-
-@property(nonatomic, retain) SonaAudioManager *audioManager;
+@property(nonatomic, retain) SonaAudioSource *audioSource;
+@property(nonatomic, retain) SonaAudioProcessor *audioProcessor;
 @property(nonatomic, retain) UIView *parent;
 
 @property(nonatomic) float refreshRateInSeconds;
@@ -20,6 +21,9 @@
 
 // Remove
 @property(nonatomic) BOOL isMusicPlaying;
+
+// Testing
+- (void) setConstraints:(CGRect)frame;
 
 - (void) start;
 - (void) stop;

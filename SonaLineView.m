@@ -1,4 +1,4 @@
-#import "public/SonaWavesView.h"
+#import "public/SonaLineView.h"
 
 #define MIN_HZ 20
 #define MAX_HZ 20000
@@ -19,10 +19,10 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     return controlPoint;
 }
 
-@interface SonaWavesView ()
+@interface SonaLineView ()
 @end
 
-@implementation SonaWavesView
+@implementation SonaLineView
 -(void) start {
 
 	if(!self.shapeLayer) {
@@ -93,6 +93,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 	}
 
 	dispatch_async(dispatch_get_main_queue(), ^{
+		self.shapeLayer.strokeColor = self.pointColor.CGColor;
 		self.shapeLayer.path = path.CGPath;
 	});
 }

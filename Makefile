@@ -6,7 +6,7 @@ export TARGET = iphone:clang:14.5:13.0
 LIBRARY_NAME = libSona
 $(LIBRARY_NAME)_FILES = $(wildcard *.m)
 $(LIBRARY_NAME)_CFLAGS = -fobjc-arc
-$(LIBRARY_NAME)_FRAMEWORKS = UIKit Accelerate QuartzCore
+$(LIBRARY_NAME)_FRAMEWORKS = UIKit Accelerate QuartzCore CoreGraphics
 
 include $(THEOS)/makefiles/common.mk
 include $(THEOS_MAKE_PATH)/library.mk

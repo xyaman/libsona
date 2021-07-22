@@ -39,6 +39,12 @@
 }
 
 - (void) fromRawToFFT:(float *)frames withLength:(int)length {
+
+	if(length == 480) {
+		[self _fromRawToFFTAirpods:frames];
+		return;
+	}
+
 	// First, we compress the audio, only if bigger than our fft length
 	// No effect if compression rate is 1
 	int compressionRate = length / FFT_LENGTH;
@@ -62,7 +68,7 @@
 	[self.delegate newAudioDataWasProcessed:_magnitudes withLength:FFT_LENGTH / 2];
 }
 
-- (void) fromRawToFFTAirpods:(float *)frames withLength:(int)length {
+- (void) _fromRawToFFTAirpods:(float *)frames {
 
 	float newScalingFactor = _scalingFactor * self.delegate.pointAirpodsBoost;
 

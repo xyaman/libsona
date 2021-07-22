@@ -54,12 +54,7 @@
 -(void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
 	
 	// We want fft
-	if(length == 480) {
-		[self.audioProcessor fromRawToFFTAirpods:buffer withLength:length];
-
-	} else {
-		[self.audioProcessor fromRawToFFT:buffer withLength:length];
-	}
+	[self.audioProcessor fromRawToFFT:buffer withLength:length];
 }
 
 - (void) newAudioDataWasProcessed:(float *)frames withLength:(int)length {

@@ -21,5 +21,4 @@
 @property (nonatomic, weak) id <SonaAudioProcessorDelegate> delegate;
 
 - (void) fromRawToFFT:(float *)frames withLength:(int)length;
-- (void) fromRawToFFTAirpods:(float *)frames withLength:(int)length;
 @end

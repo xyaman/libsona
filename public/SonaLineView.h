@@ -2,5 +2,5 @@
 
 @interface SonaLineView : SonaView
 @property(nonatomic, retain) CAShapeLayer *shapeLayer;
-@property(nonatomic, retain) UIBezierPath *path;
+@property(nonatomic) BOOL onlyLine;
 @end

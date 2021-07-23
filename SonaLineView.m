@@ -25,76 +25,73 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 @implementation SonaLineView
 -(void) start {
 
-	if(!self.shapeLayer) {
-		self.shapeLayer = [CAShapeLayer layer];
-		self.shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
-		self.shapeLayer.fillColor = [UIColor clearColor].CGColor;
-		// self.shapeLayer.lineWidth = self.pointWidth;
-		self.shapeLayer.lineWidth = 1.5f;
+    if(!self.shapeLayer) {
+        self.shapeLayer = [CAShapeLayer layer];
+        self.shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
+        self.shapeLayer.fillColor = [UIColor whiteColor].CGColor;
+        self.shapeLayer.lineWidth = 1.5f;
 
-		self.path = [UIBezierPath bezierPath];
-		// self.shapeLayer.frame = self.layer.frame;
+        [self.layer addSublayer:self.shapeLayer];
+    }
 
-		[self.layer addSublayer:self.shapeLayer];
-	}
-
-	// Start audio connection
-	self.isMusicPlaying = YES;
-	[self.audioSource startConnection];
+    // Start audio connection
+    self.isMusicPlaying = YES;
+    [self.audioSource startConnection];
 }
 
 -(void) stop {
-	self.isMusicPlaying = NO;
-	[self.audioSource stopConnection];
+    self.isMusicPlaying = NO;
+    [self.audioSource stopConnection];
 }
 
 -(void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
 
-	int POINTS = 16;
-	// int POINTS = 10;
-	
-	float height = 4;
-	// float phase = 0;
+    float centerY = self.frame.size.height / 2; 
 
-	float centerY = self.frame.size.height / 2;	
+    // Create path
+    UIBezierPath *path = [UIBezierPath bezierPath];
 
-	UIBezierPath *path = [UIBezierPath bezierPath];
-	float step = self.frame.size.width / POINTS;
+    // Get point x width
+    float step = self.frame.size.width / self.pointNumber;
 
-	[path moveToPoint:CGPointMake(0, centerY)];
+    [path moveToPoint:CGPointMake(0, centerY)];
 
-	float points[16] = {0};
-	for(int i = 0; i < POINTS; i++) {
-		points[i] = buffer[i * (length/POINTS)];
-	}
+    float points[64] = {0};
+    int compressionRate = length / self.pointNumber;
+    for(int i = 0; i < self.pointNumber; i++) {
+        points[i] = buffer[i * compressionRate];
+    }
 
-	for(int i = 1; i < POINTS; i++) {
+    for(int i = 1; i < self.pointNumber; i++) {
+        float x1 = i * step;
+        float x0 = (i-1) * step;
+        float y1 = self.pointSensitivity * points[i] + centerY;
+        float y0 = self.pointSensitivity * points[i - 1] + centerY;
 
-		float x1 = i * step;
-		float x0 = (i-1) * step;
-		float y1 = height * points[i] + centerY;
-		float y0 = height * points[i - 1] + centerY;
+        y1 = y1 > self.frame.size.height ? self.frame.size.height : y1;
+        y0 = y0 > self.frame.size.height ? self.frame.size.height : y0;
 
 
-		CGPoint p1 = CGPointMake(x0, y0);
-		CGPoint p2 = CGPointMake(x1, y1);
-		CGPoint midPoint = midPointForPoints(p1, p2);
+        CGPoint p1 = CGPointMake(x0, y0);
+        CGPoint p2 = CGPointMake(x1, y1);
+        CGPoint midPoint = midPointForPoints(p1, p2);
 
-		[path addQuadCurveToPoint:midPoint controlPoint:controlPointForPoints(midPoint, p1)];
+        [path addQuadCurveToPoint:midPoint controlPoint:controlPointForPoints(midPoint, p1)];
+        [path addQuadCurveToPoint:p2 controlPoint:controlPointForPoints(midPoint, p2)];
+    }
 
-		// Fix this
-		if (i < POINTS - 1) {
- 			[path addQuadCurveToPoint:p2 controlPoint:controlPointForPoints(midPoint, p2)];
-		} else {
-			CGPoint endPoint = CGPointMake(self.frame.size.width, centerY);
-			midPoint = midPointForPoints(p2, endPoint);
-			[path addQuadCurveToPoint:endPoint controlPoint:controlPointForPoints(midPoint, endPoint)];
-		}
-	}
+    if(!self.onlyLine) {
+        [path addLineToPoint:CGPointMake(self.frame.size.width, centerY)];
+        [path addLineToPoint:CGPointMake(self.frame.size.width, centerY * 2)];
+        [path addLineToPoint:CGPointMake(0, centerY * 2)];
+        [path addLineToPoint:CGPointMake(0, centerY)];
+    }
 
-	dispatch_async(dispatch_get_main_queue(), ^{
-		self.shapeLayer.strokeColor = self.pointColor.CGColor;
-		self.shapeLayer.path = path.CGPath;
-	});
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.shapeLayer.strokeColor = self.pointColor.CGColor;
+        self.shapeLayer.fillColor = self.pointColor.CGColor;
+        self.shapeLayer.path = path.CGPath;
+    });
 }
 @end

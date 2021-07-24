@@ -90,7 +90,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
     dispatch_async(dispatch_get_main_queue(), ^{
         self.shapeLayer.strokeColor = self.pointColor.CGColor;
-        self.shapeLayer.fillColor = self.pointColor.CGColor;
+        self.shapeLayer.fillColor = self.onlyLine ? [UIColor clearColor].CGColor : self.pointColor.CGColor;
         self.shapeLayer.path = path.CGPath;
     });
 }

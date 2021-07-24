@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import <objc/runtime.h>
 
 #import "SonaAudioSource.h"
 #import "SonaAudioProcessor.h"
@@ -27,7 +28,10 @@
 
 // Utils
 - (void) hideAndShowParentFor2Sec;
+- (void) openCurrentPlayingApp;
 
 // - (void) resume;
 // - (void) pause;
 @end
+
+

@@ -1,5 +1,19 @@
 #include "public/SonaView.h"
 
+// Used for playing app
+@interface SBApplication : NSObject
+@property (nonatomic,readonly) NSString * bundleIdentifier;                                                                                     //@synthesize bundleIdentifier=_bundleIdentifier - In the implementation block
+@end
+
+@interface SBMediaController : NSObject
++ (instancetype)sharedInstance;
+- (SBApplication *)nowPlayingApplication;
+@end
+
+@interface UIApplication ()
+-(BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2 ;
+@end
+
 @interface SonaView ()
 @end
 
@@ -38,7 +52,6 @@
 
 
 - (void) hideAndShowParentFor2Sec {
-	NSLog(@"[libsona] tappp");
 	if(self.parent) {
 		// Animate dissapear
 		[UIView animateWithDuration:0.5
@@ -51,6 +64,13 @@
 			self.alpha = 1.0;
 			if(self.isMusicPlaying) self.parent.hidden = YES;
 		}];
+	}
+}
+
+- (void) openCurrentPlayingApp {
+	SBApplication *nowPlayingApp = [[objc_getClass("SBMediaController") sharedInstance] nowPlayingApplication];
+	if(nowPlayingApp) {
+		[[UIApplication sharedApplication] launchApplicationWithIdentifier:nowPlayingApp.bundleIdentifier suspended:NO];
 	}
 }
 

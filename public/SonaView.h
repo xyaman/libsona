@@ -22,11 +22,11 @@
 // Remove
 @property(nonatomic) BOOL isMusicPlaying;
 
-// Testing
-- (void) setConstraints:(CGRect)frame;
-
 - (void) start;
 - (void) stop;
+
+// Utils
+- (void) hideAndShowParentFor2Sec;
 
 // - (void) resume;
 // - (void) pause;

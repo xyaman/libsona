@@ -23,18 +23,18 @@
 }
 
 -(void) start {
+	[super start];
 	// TODO: Find a way to re render layers every time 
 
 	// We only want to create bars just ONE TIME
 	if(self.layer.sublayers.count == 0) [self renderBars];
 
 	// Start audio connection
-	self.isMusicPlaying = YES;
 	[self.audioSource startConnection];
 }
 
 -(void) stop {
-	self.isMusicPlaying = NO;
+	[super stop];
 	[self.audioSource stopConnection];
 }
 

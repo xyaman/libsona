@@ -29,25 +29,30 @@
 }
 
 - (void) start {
+	self.isMusicPlaying = YES;
 }
 
 - (void) stop {
+	self.isMusicPlaying = NO;
 }
 
-- (void) setConstraints:(CGRect)frame {
-	if(!self.superview) return;
 
-	[self.leftAnchor constraintEqualToAnchor:self.superview.leftAnchor constant:frame.origin.x].active = YES; // Left
-	[self.topAnchor constraintEqualToAnchor:self.superview.topAnchor].active = YES; // Top
-	[self.widthAnchor constraintEqualToConstant:frame.size.width].active = YES; // Width
-	[self.heightAnchor constraintEqualToConstant:frame.size.height].active = YES; // Height
+- (void) hideAndShowParentFor2Sec {
+	NSLog(@"[libsona] tappp");
+	if(self.parent) {
+		// Animate dissapear
+		[UIView animateWithDuration:0.5
+			animations:^{self.alpha = 0.0;}
+			completion:^(BOOL finished){self.parent.hidden = NO;}
+		];
+
+		// Wait 2 seconds and then show again
+		[NSTimer scheduledTimerWithTimeInterval:2.5 repeats:NO block:^(NSTimer *timer) {
+			self.alpha = 1.0;
+			if(self.isMusicPlaying) self.parent.hidden = YES;
+		}];
+	}
 }
-
-// - (void) resume {
-// }
-
-// - (void) pause {
-// }
 
 -(void) newAudioDataWasProcessed:(float *)data withLength:(int)length {
 }

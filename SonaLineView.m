@@ -24,6 +24,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
 @implementation SonaLineView
 -(void) start {
+    [super start];
 
     if(!self.shapeLayer) {
         self.shapeLayer = [CAShapeLayer layer];
@@ -35,12 +36,11 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     }
 
     // Start audio connection
-    self.isMusicPlaying = YES;
     [self.audioSource startConnection];
 }
 
 -(void) stop {
-    self.isMusicPlaying = NO;
+    [super stop];
     [self.audioSource stopConnection];
 }
 

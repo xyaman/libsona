@@ -44,10 +44,23 @@
 
 - (void) start {
 	self.isMusicPlaying = YES;
+	self.hidden = NO;
+	if(self.parent) self.parent.hidden = YES;
+}
+
+- (void) resume {
+	if(self.isMusicPlaying) [self start];
 }
 
 - (void) stop {
 	self.isMusicPlaying = NO;
+	self.hidden = YES;
+	if(self.parent) self.parent.hidden = NO;
+}
+
+- (void) pause {
+	[self stop];
+	self.isMusicPlaying = YES;
 }
 
 

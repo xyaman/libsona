@@ -30,8 +30,9 @@
 - (void) hideAndShowParentFor2Sec;
 - (void) openCurrentPlayingApp;
 
-// - (void) resume;
-// - (void) pause;
+- (void) resume;
+- (void) pause;
+
 @end
 
 

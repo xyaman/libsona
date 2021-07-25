@@ -1,4 +1,4 @@
-#import "public/SonaLineView.h"
+#import "public/SonaWaveView.h"
 
 #define MIN_HZ 20
 #define MAX_HZ 20000
@@ -19,10 +19,10 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     return controlPoint;
 }
 
-@interface SonaLineView ()
+@interface SonaWaveView ()
 @end
 
-@implementation SonaLineView
+@implementation SonaWaveView
 -(void) start {
     [super start];
 

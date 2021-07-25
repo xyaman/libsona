@@ -46,7 +46,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
 -(void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
 
-    float centerY = self.frame.size.height / 2; 
+    float centerY = (self.frame.size.height / 2) + self.waveYOffset; 
 
     // Create path
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -82,8 +82,8 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
     if(!self.onlyLine) {
         [path addLineToPoint:CGPointMake(self.frame.size.width, centerY)];
-        [path addLineToPoint:CGPointMake(self.frame.size.width, centerY * 2)];
-        [path addLineToPoint:CGPointMake(0, centerY * 2)];
+        [path addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+        [path addLineToPoint:CGPointMake(0, self.frame.size.height)];
         [path addLineToPoint:CGPointMake(0, centerY)];
     }
 

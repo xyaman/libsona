@@ -11,6 +11,7 @@
 -(void) renderBars {
 	// Calculate offset to center bars
 	float leftOffset = (self.frame.size.width - (self.pointSpacing + self.pointWidth) * self.pointNumber - self.pointSpacing) / 2;
+	leftOffset += self.xOffset;
 
 	for(int i = 0; i < self.pointNumber; i++) {
 		CAGradientLayer *bar = [CAGradientLayer layer];

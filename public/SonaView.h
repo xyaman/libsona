@@ -21,6 +21,10 @@
 @property(nonatomic) UIColor *pointColor;
 @property(nonatomic) UIColor *pointSecondaryColor;
 
+// Positioning
+@property(nonatomic) float xOffset;
+@property(nonatomic) float yOffset;
+
 // Remove
 @property(nonatomic) BOOL isMusicPlaying;
 

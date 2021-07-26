@@ -23,17 +23,20 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 @end
 
 @implementation SonaWaveView
+-(id) initWithFrame:(CGRect) frame {
+    self = [super initWithFrame:frame];
+
+    self.shapeLayer = [CAShapeLayer layer];
+    self.shapeLayer.strokeColor = self.pointColor.CGColor;
+    self.shapeLayer.fillColor = self.pointSecondaryColor.CGColor;
+    self.shapeLayer.lineWidth = 1.5f;
+    [self.layer addSublayer:self.shapeLayer];
+
+    return self;
+}
+
 -(void) start {
     [super start];
-
-    if(!self.shapeLayer) {
-        self.shapeLayer = [CAShapeLayer layer];
-        self.shapeLayer.strokeColor = self.pointColor.CGColor;
-        self.shapeLayer.fillColor = self.pointSecondaryColor.CGColor;
-        self.shapeLayer.lineWidth = 1.5f;
-
-        [self.layer addSublayer:self.shapeLayer];
-    }
 
     // Start audio connection
     [self.audioSource startConnection];
@@ -46,7 +49,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
 -(void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
 
-    float centerY = (self.frame.size.height / 2) + self.waveYOffset; 
+    float centerY = (self.frame.size.height / 2) + self.yOffset; 
 
     // Create path
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -63,8 +66,8 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     }
 
     for(int i = 1; i < self.pointNumber; i++) {
-        float x1 = i * step;
-        float x0 = (i-1) * step;
+        float x1 = (i * step) + self.xOffset;
+        float x0 = ((i - 1) * step) + self.xOffset;
         float y1 = self.pointSensitivity * points[i] + centerY;
         float y0 = self.pointSensitivity * points[i - 1] + centerY;
 
@@ -84,8 +87,8 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     if(!self.onlyLine) {
         [path addLineToPoint:CGPointMake(self.frame.size.width, centerY)];
         [path addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
-        [path addLineToPoint:CGPointMake(0, self.frame.size.height)];
-        [path addLineToPoint:CGPointMake(0, centerY)];
+        [path addLineToPoint:CGPointMake(self.xOffset, self.frame.size.height)];
+        [path addLineToPoint:CGPointMake(self.xOffset, centerY)];
     }
 
 

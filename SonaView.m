@@ -60,8 +60,12 @@
 }
 
 - (void) pause {
-	[self stop];
-	self.isMusicPlaying = YES;
+	if(self.isMusicPlaying) {
+		[self stop];
+		self.isMusicPlaying = YES;
+	} else {
+		[self stop];
+	}
 }
 
 

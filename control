@@ -3,8 +3,8 @@ Name: libSona
 Version: 0.0.1
 Architecture: iphoneos-arm
 Description: Simple audio visualizer library.
-Maintainer: Diego Barría
-Author: Diego Barría
+Maintainer: Xyaman
+Author: Xyaman
 Section: System
 Tag: role::developer
 Depiction: https://repo.xyaman.xyz/depictions/index.html?p=libsona

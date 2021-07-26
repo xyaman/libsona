@@ -31,6 +31,7 @@
 	self.pointNumber = 4;
 
 	self.pointColor = [UIColor whiteColor];
+	self.pointSecondaryColor = nil;
 	self.isMusicPlaying = NO;
 
 	self.audioSource = [[SonaAudioSource alloc] init];

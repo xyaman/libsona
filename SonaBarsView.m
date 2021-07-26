@@ -13,10 +13,13 @@
 	float leftOffset = (self.frame.size.width - (self.pointSpacing + self.pointWidth) * self.pointNumber - self.pointSpacing) / 2;
 
 	for(int i = 0; i < self.pointNumber; i++) {
-		CALayer *bar = [CALayer layer];
+		CAGradientLayer *bar = [CAGradientLayer layer];
 
 		bar.frame = CGRectMake(leftOffset + i * (self.pointWidth + self.pointSpacing), self.frame.size.height, self.pointWidth, 0);
-		bar.backgroundColor = self.pointColor.CGColor;
+		bar.startPoint = CGPointMake(0.5, 1.0);
+		bar.endPoint = CGPointMake(0.5, 0.0);
+		bar.colors =  [NSArray arrayWithObjects:(id)[self.pointColor CGColor], (id)[self.pointSecondaryColor CGColor], nil];
+		bar.locations = @[[NSNumber numberWithFloat:0.0], [NSNumber numberWithFloat:0.7]];
 		bar.cornerRadius = self.pointRadius;
 		[self.layer addSublayer:bar];
 	}
@@ -85,11 +88,15 @@
 
 	// Render new bars
 	for(int i = 0; i < self.pointNumber; i++) {
-		CALayer *bar = self.layer.sublayers[i];
+		// CALayer *bar = self.layer.sublayers[i];
+		CAGradientLayer *bar = self.layer.sublayers[i];
 		float heightMultiplier = octaves[i] * self.pointSensitivity > 0.95 ? 0.95 : octaves[i] * self.pointSensitivity;
 
+		struct CGColor *primaryColor = self.pointColor.CGColor;
+		struct CGColor *secondaryColor = self.pointSecondaryColor ? self.pointSecondaryColor.CGColor : nil;
+
 		dispatch_async(dispatch_get_main_queue(), ^{
-			bar.backgroundColor = self.pointColor.CGColor;
+			bar.colors =  [NSArray arrayWithObjects:(__bridge id)primaryColor, (__bridge id)secondaryColor, nil];
 			bar.frame = CGRectMake(bar.frame.origin.x, self.frame.size.height, bar.frame.size.width, -fabs(heightMultiplier * self.frame.size.height));
 		});
 	}	

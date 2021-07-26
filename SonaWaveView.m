@@ -28,8 +28,8 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
     if(!self.shapeLayer) {
         self.shapeLayer = [CAShapeLayer layer];
-        self.shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
-        self.shapeLayer.fillColor = [UIColor whiteColor].CGColor;
+        self.shapeLayer.strokeColor = self.pointColor.CGColor;
+        self.shapeLayer.fillColor = self.pointSecondaryColor.CGColor;
         self.shapeLayer.lineWidth = 1.5f;
 
         [self.layer addSublayer:self.shapeLayer];
@@ -80,6 +80,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
         [path addQuadCurveToPoint:p2 controlPoint:controlPointForPoints(midPoint, p2)];
     }
 
+
     if(!self.onlyLine) {
         [path addLineToPoint:CGPointMake(self.frame.size.width, centerY)];
         [path addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
@@ -90,7 +91,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
     dispatch_async(dispatch_get_main_queue(), ^{
         self.shapeLayer.strokeColor = self.pointColor.CGColor;
-        self.shapeLayer.fillColor = self.onlyLine ? [UIColor clearColor].CGColor : self.pointColor.CGColor;
+        self.shapeLayer.fillColor = self.pointSecondaryColor ? self.pointSecondaryColor.CGColor : [UIColor clearColor].CGColor;
         self.shapeLayer.path = path.CGPath;
     });
 }

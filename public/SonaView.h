@@ -19,6 +19,7 @@
 @property(nonatomic) float pointWidth;
 @property(nonatomic) int pointNumber;
 @property(nonatomic) UIColor *pointColor;
+@property(nonatomic) UIColor *pointSecondaryColor;
 
 // Remove
 @property(nonatomic) BOOL isMusicPlaying;

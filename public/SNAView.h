@@ -4,6 +4,14 @@
 #import "SNAAudioSource.h"
 #import "SNAAudioProcessor.h"
 
+
+typedef NS_ENUM(NSInteger, SNAColoringStyle) {
+	SNAColoringStyleFull, // Just one color
+	SNAColoringStyleGradient, // Gradient between 2 colours
+	SNAColoringStyleMate // 2 colors but clearly separated
+};
+
+
 /// The SNAView class in Sona provides the most basic visualyzer view.
 /// By it's own it does nothing.
 @interface SNAView : UIView <SNAAudioSourceDelegate, SNAAudioProcessorDelegate>
@@ -12,6 +20,8 @@
 @property(nonatomic, retain) SNAAudioProcessor *audioProcessor;
 @property(nonatomic, retain) UIView *parent;
 
+// Style
+@property(nonatomic) NSInteger coloringStyle;
 @property(nonatomic) float refreshRateInSeconds;
 @property(nonatomic) float pointSensitivity;
 @property(nonatomic) float pointAirpodsBoost;
@@ -39,5 +49,3 @@
 - (void) pause;
 
 @end
-
-

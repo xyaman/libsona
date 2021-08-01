@@ -1,9 +1,9 @@
-#include "public/SonaAudioProcessor.h"
+#include "public/SNAAudioProcessor.h"
 
-@interface SonaAudioProcessor ()
+@interface SNAAudioProcessor ()
 @end
 
-@implementation SonaAudioProcessor
+@implementation SNAAudioProcessor
 
 - (instancetype) init {
 	self = [super init];

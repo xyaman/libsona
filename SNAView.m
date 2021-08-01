@@ -1,8 +1,8 @@
-#include "public/SonaView.h"
+#include "public/SNAView.h"
 
 // Used for playing app
 @interface SBApplication : NSObject
-@property (nonatomic,readonly) NSString * bundleIdentifier;                                                                                     //@synthesize bundleIdentifier=_bundleIdentifier - In the implementation block
+@property (nonatomic, readonly) NSString * bundleIdentifier;                                                                                     //@synthesize bundleIdentifier=_bundleIdentifier - In the implementation block
 @end
 
 @interface SBMediaController : NSObject
@@ -14,10 +14,10 @@
 -(BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2 ;
 @end
 
-@interface SonaView ()
+@interface SNAView ()
 @end
 
-@implementation SonaView
+@implementation SNAView
 - (instancetype) initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 
@@ -34,10 +34,10 @@
 	self.pointSecondaryColor = nil;
 	self.isMusicPlaying = NO;
 
-	self.audioSource = [[SonaAudioSource alloc] init];
+	self.audioSource = [[SNAAudioSource alloc] init];
 	self.audioSource.delegate = self;
 
-	self.audioProcessor = [[SonaAudioProcessor alloc] init];
+	self.audioProcessor = [[SNAAudioProcessor alloc] init];
 	self.audioProcessor.delegate = self;
 
 	return self;

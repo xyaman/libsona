@@ -1,8 +1,9 @@
-#import "public/SonaWaveView.h"
+#import "public/SNAWaveView.h"
 
 #define MIN_HZ 20
 #define MAX_HZ 20000
 
+// Get the mid point of 2 points
 static CGPoint midPointForPoints(CGPoint p1, CGPoint p2) {
     return CGPointMake((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 }
@@ -19,10 +20,10 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     return controlPoint;
 }
 
-@interface SonaWaveView ()
+@interface SNAWaveView ()
 @end
 
-@implementation SonaWaveView
+@implementation SNAWaveView
 -(id) initWithFrame:(CGRect) frame {
     self = [super initWithFrame:frame];
 

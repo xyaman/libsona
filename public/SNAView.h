@@ -1,14 +1,15 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
-#import "SonaAudioSource.h"
-#import "SonaAudioProcessor.h"
+#import "SNAAudioSource.h"
+#import "SNAAudioProcessor.h"
 
-/// The SonaView class in Sona provides the most basic visualyzer view.
-@interface SonaView : UIView <SonaAudioSourceDelegate, SonaAudioProcessorDelegate>
+/// The SNAView class in Sona provides the most basic visualyzer view.
+/// By it's own it does nothing.
+@interface SNAView : UIView <SNAAudioSourceDelegate, SNAAudioProcessorDelegate>
 
-@property(nonatomic, retain) SonaAudioSource *audioSource;
-@property(nonatomic, retain) SonaAudioProcessor *audioProcessor;
+@property(nonatomic, retain) SNAAudioSource *audioSource;
+@property(nonatomic, retain) SNAAudioProcessor *audioProcessor;
 @property(nonatomic, retain) UIView *parent;
 
 @property(nonatomic) float refreshRateInSeconds;
@@ -25,7 +26,6 @@
 @property(nonatomic) float xOffset;
 @property(nonatomic) float yOffset;
 
-// Remove
 @property(nonatomic) BOOL isMusicPlaying;
 
 - (void) start;

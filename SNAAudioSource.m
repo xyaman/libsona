@@ -1,9 +1,9 @@
-#import "public/SonaAudioSource.h"
+#import "public/SNAAudioSource.h"
 
-@interface SonaAudioSource ()
+@interface SNAAudioSource ()
 @end
 
-@implementation SonaAudioSource
+@implementation SNAAudioSource
 
 - (instancetype) init {
 	self = [super init];

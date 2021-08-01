@@ -2,7 +2,7 @@
 #import <arpa/inet.h>
 
 // Local
-#import "SonaAudioSourceDelegate.h"
+#import "SNAAudioSourceDelegate.h"
 
 #define SA struct sockaddr
 #define ASSPORT 44333
@@ -10,7 +10,7 @@
 
 
 
-@interface SonaAudioSource : NSObject {
+@interface SNAAudioSource : NSObject {
 	// Socket related
 	struct sockaddr_in _addr;
 	BOOL _isConnected;
@@ -20,7 +20,7 @@
 
 }
 
-@property (nonatomic, weak) id <SonaAudioSourceDelegate> delegate;
+@property (nonatomic, weak) id <SNAAudioSourceDelegate> delegate;
 
 - (void) startConnection;
 - (void) stopConnection;

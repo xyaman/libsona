@@ -1,12 +1,12 @@
-#import "public/SonaBarsView.h"
+#import "public/SNABarsView.h"
 
 #define MIN_HZ 20
 #define MAX_HZ 20000
 
-@interface SonaBarsView ()
+@interface SNABarsView ()
 @end
 
-@implementation SonaBarsView
+@implementation SNABarsView
 // we need a different setter method, because we also need to create layers
 -(void) renderBars {
 	// Calculate offset to center bars

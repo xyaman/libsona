@@ -21,6 +21,8 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 }
 
 @interface SNAWaveView ()
+@property(nonatomic, retain) NSMutableArray *colors;
+@property(nonatomic, retain) CAGradientLayer *gradient;
 @end
 
 @implementation SNAWaveView
@@ -36,19 +38,62 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     return self;
 }
 
--(void) start {
+- (void) updateColors {
+
+    if(!self.pointColor) self.pointColor = [UIColor whiteColor];
+
+    // Define colours depending of colouring style
+    if(self.coloringStyle == SNAColoringStyleFull) {
+
+        self.shapeLayer.strokeColor = self.pointSecondaryColor ? self.pointSecondaryColor.CGColor : self.pointColor.CGColor;
+        self.shapeLayer.fillColor = self.shapeLayer.strokeColor;
+
+    } else if(self.coloringStyle == SNAColoringStyleSolid) {
+
+        self.shapeLayer.strokeColor = self.pointColor.CGColor;
+        self.shapeLayer.fillColor = self.pointSecondaryColor ? self.pointSecondaryColor.CGColor : self.pointColor.CGColor;
+   
+    } else if(self.coloringStyle == SNAColoringStyleGradient) {
+
+        if(!self.gradient) {
+            self.gradient = [CAGradientLayer layer];
+            self.gradient.startPoint = CGPointMake(0.5, 1.0);
+            self.gradient.endPoint = CGPointMake(0.5, 0.0);
+            self.gradient.mask = self.shapeLayer;
+            [self.layer addSublayer:self.gradient];
+
+            self.gradient.frame = self.layer.bounds;
+            self.shapeLayer.frame = self.gradient.bounds;
+
+            self.colors = [NSMutableArray arrayWithCapacity:2];
+            self.colors[0] = (id)self.pointColor.CGColor;
+            self.colors[1] = self.colors[0];
+        }
+
+        self.colors[0] = (id)self.pointColor.CGColor;
+        self.colors[1] = self.pointSecondaryColor ? (id)self.pointSecondaryColor.CGColor : (id)self.pointColor.CGColor;
+        self.shapeLayer.fillColor = [UIColor whiteColor].CGColor;
+
+        self.gradient.colors = self.colors;
+        self.gradient.locations = @[[NSNumber numberWithFloat:0.0], [NSNumber numberWithFloat:0.6]];
+    }
+
+    
+}
+
+- (void) start {
     [super start];
 
     // Start audio connection
     [self.audioSource startConnection];
 }
 
--(void) stop {
+- (void) stop {
     [super stop];
     [self.audioSource stopConnection];
 }
 
--(void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
+- (void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
 
     float centerY = (self.frame.size.height / 2) + self.yOffset; 
 
@@ -94,8 +139,6 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.shapeLayer.strokeColor = self.pointColor.CGColor;
-        self.shapeLayer.fillColor = self.pointSecondaryColor ? self.pointSecondaryColor.CGColor : [UIColor clearColor].CGColor;
         self.shapeLayer.path = path.CGPath;
     });
 }

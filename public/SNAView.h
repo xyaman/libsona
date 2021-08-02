@@ -1,3 +1,6 @@
+#ifndef SNAVIEW
+#define SNAVIEW
+
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
@@ -7,8 +10,8 @@
 
 typedef NS_ENUM(NSInteger, SNAColoringStyle) {
 	SNAColoringStyleFull, // Just one color
-	SNAColoringStyleGradient, // Gradient between 2 colours
-	SNAColoringStyleMate // 2 colors but clearly separated
+	SNAColoringStyleSolid, // 2 colors but clearly separated
+	SNAColoringStyleGradient // Gradient between 2 colours
 };
 
 
@@ -38,6 +41,9 @@ typedef NS_ENUM(NSInteger, SNAColoringStyle) {
 
 @property(nonatomic) BOOL isMusicPlaying;
 
+- (void) renderPoints;
+- (void) updateColors;
+
 - (void) start;
 - (void) stop;
 
@@ -49,3 +55,4 @@ typedef NS_ENUM(NSInteger, SNAColoringStyle) {
 - (void) pause;
 
 @end
+#endif

@@ -68,6 +68,8 @@
 	}
 }
 
+- (void) renderPoints {}
+- (void) updateColors {}
 
 - (void) hideAndShowParentFor2Sec {
 	if(self.parent) {
@@ -92,9 +94,7 @@
 	}
 }
 
--(void) newAudioDataWasProcessed:(float *)data withLength:(int)length {
-}
-
-- (void) newAudioDataWasReceived:(float*)data withLength:(int)length {
-}
+// Audio delegate methods
+- (void) newAudioDataWasProcessed:(float *)data withLength:(int)length {}
+- (void) newAudioDataWasReceived:(float*)data withLength:(int)length {}
 @end

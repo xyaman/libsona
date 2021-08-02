@@ -48,6 +48,8 @@
 
 - (void) updateColors {
 
+    if(!self.pointColor) self.pointColor = [UIColor whiteColor];
+
     // Define colours depending of colouring style
     if(self.coloringStyle == SNAColoringStyleFull) {
 
@@ -153,9 +155,6 @@
         float heightMultiplier = octaves[i] * self.pointSensitivity > 0.95 ? 0.95 : octaves[i] * self.pointSensitivity;
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            // bar.colors =  [NSArray arrayWithObjects:(__bridge id)primaryColor, (__bridge id)secondaryColor, nil];
-            // bar.colors =  [NSArray arrayWithObjects:(__bridge id)primaryColor, (__bridge id)primaryColor, (__bridge id)secondaryColor, (__bridge id)secondaryColor, nil];
-            // bar.colors = self.colors;
             bar.frame = CGRectMake(bar.frame.origin.x, self.frame.size.height, bar.frame.size.width, -fabs(heightMultiplier * self.frame.size.height));
         });
     }   

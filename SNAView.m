@@ -44,6 +44,7 @@
 }
 
 - (void) start {
+    [self.audioSource startConnection];
 	self.isMusicPlaying = YES;
 	self.hidden = NO;
 	if(self.parent) self.parent.hidden = YES;
@@ -54,6 +55,7 @@
 }
 
 - (void) stop {
+	[self.audioSource stopConnection];
 	self.isMusicPlaying = NO;
 	self.hidden = YES;
 	if(self.parent) self.parent.hidden = NO;

@@ -83,17 +83,15 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
 
 - (void) start {
     [super start];
-
-    // Start audio connection
-    [self.audioSource startConnection];
 }
 
 - (void) stop {
     [super stop];
-    [self.audioSource stopConnection];
 }
 
 - (void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
+
+    if(length == 0) return [self.audioSource restartConnection];;
 
     float centerY = (self.frame.size.height / 2) + self.yOffset; 
 

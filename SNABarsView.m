@@ -23,7 +23,7 @@
 - (void) renderPoints {
 
     // Remove old layers
-    for(int i = self.layer.sublayers.count - 1; i >=0; i--) {
+    for(int i = self.layer.sublayers.count - 1; i >= 0; i--) {
         CAGradientLayer *bar = self.layer.sublayers[i];
         [bar removeFromSuperlayer];
     }
@@ -91,31 +91,18 @@
 
 - (void) start {
     [super start];
-    [self renderPoints];
-
-    // Start audio connection
-    [self.audioSource startConnection];
+    
+    // We only want to create bars just ONE TIME
+    if(self.layer.sublayers.count == 0) [self renderPoints];
 }
 
 - (void) stop {
     [super stop];
-    [self.audioSource stopConnection];
-}
-
-
--(void) resume {
-    if (!self.isMusicPlaying) return;
-
-    [self.audioSource startConnection];
-}
-
--(void) pause {
-    if (!self.isMusicPlaying) return;
-
-    [self.audioSource stopConnection];
 }
 
 -(void) newAudioDataWasReceived:(float *)buffer withLength:(int)length {
+
+    if(length == 0) return [self.audioSource restartConnection];
     
     // We want fft
     [self.audioProcessor fromRawToFFT:buffer withLength:length];
@@ -124,6 +111,7 @@
 - (void) newAudioDataWasProcessed:(float *)frames withLength:(int)length {
 
     if(self.layer.sublayers.count != self.pointNumber || self.pointNumber == 0) return;
+    if(isnan(self.frame.size.height)) return;
 
     // We want bar frequency visualizer
 

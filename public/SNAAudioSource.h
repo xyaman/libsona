@@ -24,4 +24,5 @@
 
 - (void) startConnection;
 - (void) stopConnection;
+- (void) restartConnection;
 @end

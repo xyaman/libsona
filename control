@@ -1,6 +1,7 @@
 Package: com.xyaman.libsona
 Name: libSona
-Version: 0.1.0
+Version: 0.1.2
+Depends: mobilesubstrate, com.ryannair05.audiosnapshotserver
 Architecture: iphoneos-arm
 Description: Simple audio visualizer library.
 Maintainer: Xyaman
